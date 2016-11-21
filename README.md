@@ -1,2 +1,2 @@
 # react-test-app
-React test boilerplate app for publicsonar
+Test React boilerplate app from publicsonar
