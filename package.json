@@ -1,0 +1,54 @@
+{
+  "name": "react-test-app",
+  "version": "0.1.0",
+  "description": "Test React boilerplate app from publicsonar",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ifElser/react-test-app.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./client ./webpack.config.js -f table || true",
+    "debug": "./node_modules/.bin/webpack-dev-server",
+    "make": "./node_modules/.bin/webpack",
+    "build": "./node_modules/.bin/webpack -p",
+    "deploy": "echo \"Error: no CI/CD scripts\" && exit 1",
+    "start": "./node_modules/.bin/webpack-dev-server -p"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.8",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "css-loader": "^0.26.0",
+    "eslint": "^3.11.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.7.1",
+    "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "file-loader": "^0.9.0",
+    "mocha": "^3.2.0",
+    "nib": "^1.1.2",
+    "node-sass": "^3.13.0",
+    "postcss-loader": "^1.1.1",
+    "react-hot-loader": "^1.3.1",
+    "sass-loader": "^4.0.2",
+    "sinon": "^1.17.6",
+    "style-loader": "^0.13.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^2.4.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.2",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "webpack": "^2.1.0-beta.26",
+    "webpack-dev-server": "^2.1.0-beta.11"
+  }
+}
