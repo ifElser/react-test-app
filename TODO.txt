@@ -1,0 +1,49 @@
+# Boilerplate application
+
+Create a boilerplate application project from scratch using Webpack 2, Babel 6,
+React and Webpack Dev Server (WDS). BaobabJS must be used as a application's
+state manager/single state store. Tools like create-react-app or nwb can't be
+used.
+
+ReactRouter3/Found/Router5 might be used as a routing solution. The architecture
+of the application and directory layout is up to you.
+
+There should be a way to create a production build of the application with
+minified JS and CSS, images and HTML files required for the application. Each
+production build should automatically increment the application's version in
+`package.json` and should also print this version number in a browser's console.
+
+WDS should be used for serving the application. All requests to `/api/*` should
+be proxied using WDS and redirected to `http://jsonplaceholder.typicode.com/*`.
+Use jsonplaceholder's REST API for getting all the necessary data.
+
+There should be at least three main pages:
+
+1. A page with a list of posts from all users. Each post must include its
+content, a username and all comments which are hidden by default, but could be
+requested and shown in a popup by clicking on the post, like in Twitter posts.
+The popup should be centered on the screen, there should be an overlay with a
+close button. The popup could be closed by clicking on this button or on the
+overlay. Twitter popups could be used as a reference. The url should be changed
+based on the currently opened post. By opening/reloading the page with the
+current url the application should show the same popup on the same page.
+
+2. A page with a list of photo albums from all users. Each album in the list
+must show its title and a username. By clicking on the album the application
+should show a popup with a slider which contains photos from this album. There
+should be a way to browse all photos in a slider by clicking next/previous
+buttons at the popup. The slider should switch to the next photo in the album
+every few seconds. The url should be changed based on the currently opened album
+and selected photo. By opening/reloading the page with the current url the
+application should show the same popup on the same page with the same selected
+photo in a slider. Slide transitions should be animated.
+
+3. By clicking on a username on any page the application should redirect to the
+user's profile page with additional information about the user and two lists
+containing user's posts and photo albums. Both lists should work the same way as
+described in parts 1 and 2.
+
+The application should include a navigation menu with links to pages 1 and 2.
+
+All HTML/CSS/React components for this application must be created from scratch.
+CSS frameworks like Bootstrap or Foundation can't be used.

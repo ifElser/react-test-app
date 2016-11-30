@@ -1,6 +1,6 @@
 {
   "name": "react-test-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Test React boilerplate app from publicsonar",
   "main": "index.js",
   "repository": {
@@ -8,13 +8,17 @@
     "url": "https://github.com/ifElser/react-test-app.git"
   },
   "scripts": {
+    "preinstall": "npm i -g pm2@2.1.6 webpack@2.1.0-beta.27 webpack-dev-server@2.1.0-beta.11",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ./client ./webpack.config.js -f table || true",
-    "debug": "./node_modules/.bin/webpack-dev-server",
-    "make": "./node_modules/.bin/webpack",
-    "build": "./node_modules/.bin/webpack -p",
-    "deploy": "echo \"Error: no CI/CD scripts\" && exit 1",
-    "start": "./node_modules/.bin/webpack-dev-server -p"
+    "lint": "eslint ./development/source ./webpack.config.js -f table || true",
+    "debug": "webpack-dev-server",
+    "build-dev": "rm -rf ./development/build && webpack",
+    "build": "npm version minor && rm -rf ./production/build && webpack -p",
+    "deploy": "pm2 deploy",
+    "start": "pm2 startOrRestart ecosystem.config.js --env production",
+    "restart": "pm2 startOrRestart ecosystem.config.js --env production",
+    "stop": "pm2 stop ecosystem.config.js",
+    "kill": "pm2 delete ecosystem.config.js"
   },
   "license": "MIT",
   "devDependencies": {
@@ -33,6 +37,7 @@
     "eslint-plugin-react": "^6.7.1",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.24.1",
     "mocha": "^3.2.0",
     "nib": "^1.1.2",
     "node-sass": "^3.13.0",
@@ -48,6 +53,7 @@
     "lodash": "^4.17.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-router": "^3.0.0",
     "webpack": "^2.1.0-beta.26",
     "webpack-dev-server": "^2.1.0-beta.11"
   }
