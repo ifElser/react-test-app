@@ -2,10 +2,6 @@
 
 import webpack from 'webpack';
 import path from 'path';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import Index from './development/source/index.jsx';
-
 
 const production = process.env.NODE_ENV === 'production';
 const nodeEnv = production ? 'production' : 'development';
@@ -37,14 +33,6 @@ const stats = {
 
     colors: { green: '\u001b[32m' }
 
-    // assetsSort: "field",
-    // chunksSort: "field",
-    // modulesSort: "field",
-    // cached: false,
-    // chunkModules: false,
-    // chunkOrigins: false,
-    // context: sourcePath
-
 };
 
 const entry = {
@@ -60,57 +48,14 @@ const plugins = [
     new webpack.optimize.CommonsChunkPlugin({
         name: 'frameworks',
         chunks: ['app'],
-        filename: `[name]${production ? '-[hash]' : ''}.js`
+        filename: `[name].js`
     }),
 
     new webpack.DefinePlugin({
         'process.env': { NODE_ENV: JSON.stringify(nodeEnv) }
     }),
 
-    new webpack.NamedModulesPlugin(),
-
-    {
-        apply(compiler){
-            compiler.plugin('emit', (compilation, callback) => {
-
-                let chunks = [];
-                let Page;
-                Object.keys(compilation.namedChunks).forEach(chunkName => {
-                    let {id, files, hash} = compilation.namedChunks[chunkName]
-                    if(/^index(-[\da-f]+)?\.js/.test(files[0])){
-                        Page = require(path.join(buildPath, file));
-                    } else {
-                        chunks.push({ id, files, hash });
-                    }
-                });
-                if(Page){
-                    let indexPage = '<!DOCTYPE html>' + renderToStaticMarkup(<Page chunks={chunks}/>)
-                    compilation.assets['index.html'] = {
-                        source: function() {
-                            return indexPage;
-                        },
-                        size: function() {
-                            return indexPage.length;
-                        }
-                    };
-
-                };
-                console.log('>>>', ReactDOM.renderToStaticMarkup, props, compilation.context);
-                callback()
-            })
-        }
-    }
-
-    // new HtmlWebpackPlugin({
-    //     title: 'Test React boilerplate app from publicsonar',
-    //     filename: 'index.html',
-    //     inject: 'body',
-    //     minify: production,
-    //     hash: false, //production,
-    //     cache: true,
-    //     chunks: (production ? ['frameworks', 'app'] : ['dev-server', 'frameworks', 'app']),
-    //     template: 'index.html'
-    // })
+    new webpack.NamedModulesPlugin()
 ];
 
 if (production) {
@@ -141,7 +86,7 @@ if (production) {
 } else {
 
     plugins.push(
-        new webpack.HotModuleReplacementPlugin(),
+        new webpack.HotModuleReplacementPlugin()
     );
 
     entry['dev-server'] = [
@@ -161,7 +106,7 @@ module.exports = {
     devtool: production ? 'source-map' : 'eval',
 
     output: {
-        filename: `[name]${production ? '-[hash]' : ''}.js`,
+        filename: `[name].js`,
         library: (production ? undefined : '[name]'),
         path: buildPath,
         publicPath: '/'
@@ -218,7 +163,7 @@ module.exports = {
             test: /\.(html|svg|ttf|woff|woff2|xml|jpg|jpeg|png|gif|bmp|ico|eot|txt|pdf|doc|docx|rtf)$/,
             exclude: /node_modules/,
             use: 'file',
-            query: { name: '[name]-[hash:8].[ext]' }
+            query: { name: '[name].[ext]' }
 
         }]
     },

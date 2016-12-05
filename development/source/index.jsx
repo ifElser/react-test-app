@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import App from './components/app';
+import App from './app';
 
 export default class Page extends Component {
 
@@ -17,7 +17,7 @@ export default class Page extends Component {
 		this.props.chunks.forEach(chunk => {
 			let chunkFiles = chunk.files.forEach(file => {
 				if(/\.js$/.test(file)) scripts.push(<script type="text/javascript" src={`file?v=${chunk.hash}`}/>);
-				if(/\.css$/.test(file)) styles.push(<link href={`file?v=${chunk.hash}`} rel="stylesheet" media="all">);
+				if(/\.css$/.test(file)) styles.push(<link href={`file?v=${chunk.hash}`} rel="stylesheet" media="all"/>);
 			});
 		});
 

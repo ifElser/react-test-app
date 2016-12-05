@@ -14,7 +14,7 @@ import Home from './components/home';
 // import User from './components/user';
 // import NoMatch from './components/404';
 
-export default const routes = (
+export default routes = (
 	<Route path="/" component={Home}>
 		{/*<IndexRoute path="/" component={Posts}>
 			<Route path="/:postId" component={Post}/>
