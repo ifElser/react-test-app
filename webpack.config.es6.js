@@ -2,9 +2,10 @@
 
 import webpack from 'webpack';
 import path from 'path';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import Index from './development/source/index.jsx';
+
+import StaticSiteGenerator from 'static-site-generator-webpack-plugin';
+// import React from 'react';
+// import ReactDOMServer from 'react-dom/server';
 
 
 const production = process.env.NODE_ENV === 'production';
@@ -69,37 +70,55 @@ const plugins = [
 
     new webpack.NamedModulesPlugin(),
 
-    {
-        apply(compiler){
-            compiler.plugin('emit', (compilation, callback) => {
 
-                let chunks = [];
-                let Page;
-                Object.keys(compilation.namedChunks).forEach(chunkName => {
-                    let {id, files, hash} = compilation.namedChunks[chunkName]
-                    if(/^index(-[\da-f]+)?\.js/.test(files[0])){
-                        Page = require(path.join(buildPath, file));
-                    } else {
-                        chunks.push({ id, files, hash });
-                    }
-                });
-                if(Page){
-                    let indexPage = '<!DOCTYPE html>' + renderToStaticMarkup(<Page chunks={chunks}/>)
-                    compilation.assets['index.html'] = {
-                        source: function() {
-                            return indexPage;
-                        },
-                        size: function() {
-                            return indexPage.length;
-                        }
-                    };
 
-                };
-                console.log('>>>', ReactDOM.renderToStaticMarkup, props, compilation.context);
-                callback()
-            })
-        }
-    }
+    // {
+    //     apply(compiler){
+
+    //         compiler.plugin("compile", function(params) {
+    //             console.log("compile ok.");
+    //         });
+
+    //         compiler.plugin("compilation", function(compilation) {
+    //             console.log("compilation ok.");
+    //             compilation.plugin("optimize", function() {
+    //                 console.log("optimize ok");
+    //             });
+    //         });
+
+    //         compiler.plugin('emit', (compilation, callback) => {
+    //             console.log("emit ok.");
+
+    //             let chunks = [];
+    //             let Page;
+    //             Object.keys(compilation.namedChunks).forEach(chunkName => {
+    //                 let {id, files, hash} = compilation.namedChunks[chunkName]
+    //                 if(/^index(-[\da-f]+)?\.js/.test(files[0])){
+    //                     // console.log(/*Object.keys(*/compilation.namedChunks[chunkName].entryModule._source._value);
+    //                     console.log(/*Object.keys(*/compilation.assets);
+    //                     Page = require(path.join(buildPath, files[0]));
+    //                 } else {
+    //                     chunks.push({ id, files, hash });
+    //                 }
+    //             });
+    //             if(Page){
+    //                 let indexPage = '<!DOCTYPE html>' + Page(chunks);
+    //                 compilation.assets['index.html'] = {
+    //                     source: function() {
+    //                         return indexPage;
+    //                     },
+    //                     size: function() {
+    //                         return indexPage.length;
+    //                     }
+    //                 };
+
+    //             };
+    //             console.log('>>>', ReactDOM.renderToStaticMarkup, props, compilation.context);
+    //             console.log("done.");
+    //             callback()
+    //         })
+    //     }
+    // }
 
     // new HtmlWebpackPlugin({
     //     title: 'Test React boilerplate app from publicsonar',
@@ -142,6 +161,7 @@ if (production) {
 
     plugins.push(
         new webpack.HotModuleReplacementPlugin(),
+        new StaticSiteGenerator('index', buildPath, {}, {})
     );
 
     entry['dev-server'] = [
