@@ -9,8 +9,7 @@ npm i
 ```
 
 ##current state
-Webpack refactored to client side only rendering
-Working on client code
+Webpack refactored to client side only rendering. Working on client code
 
 ##Isomorphic version
 Isomorphic version currently experimental and not finished yet
