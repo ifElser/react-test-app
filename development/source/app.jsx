@@ -11,7 +11,7 @@ export default class App extends Component {
 	constructor(props) { super(props); }
 
 	render(){
-		return <Router routes={routes} history="browserHistory"/>;
+		return <Router routes={routes} history={browserHistory}/>;
 	}
 
 }

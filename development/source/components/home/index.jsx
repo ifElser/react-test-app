@@ -13,6 +13,7 @@ export default class App extends Component {
 	}
 
 	render(){
+		console.log('CSS:', css);
 		return <div className={css.home}>Home page</div>;
 	}
 

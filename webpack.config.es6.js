@@ -2,6 +2,7 @@
 
 import webpack from 'webpack';
 import path from 'path';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const production = process.env.NODE_ENV === 'production';
 const nodeEnv = production ? 'production' : 'development';
@@ -37,8 +38,7 @@ const stats = {
 
 const entry = {
     frameworks: ['react', 'react-dom'],
-    app: './app',
-    index: './index'
+    app: './app'
 }
 
 const plugins = [
@@ -55,7 +55,15 @@ const plugins = [
         'process.env': { NODE_ENV: JSON.stringify(nodeEnv) }
     }),
 
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+
+    new ExtractTextPlugin({
+        filename: "styles.css",
+        disable: false,
+        allChunks: true
+    }),
+
+
 ];
 
 if (production) {
@@ -103,7 +111,7 @@ module.exports = {
     stats,
 
     context: sourcePath,
-    devtool: production ? 'source-map' : 'eval',
+    devtool: (production ? undefined : 'source-map'),
 
     output: {
         filename: `[name].js`,
@@ -118,22 +126,15 @@ module.exports = {
 
             test: /\.s?css$/,
             exclude: /node_modules/,
-            use: [{
-                loader: 'style',
-                options: { sourceMap: true }
-            },{
-                loader: 'css',
-                options: {
-                    importLoaders: 1,
-                    modules: true,
-                    localIdentName: '[name]_[local]_[hash:base64:5]'
-                }
-            },{
-                loader: 'sass',
-                options: { sourceMap: true }
-            }]
+            loader: ExtractTextPlugin.extract({
+                fallbackLoader: 'style-loader',
+                loader: ['css-loader'/*, 'sass-loader'*/],
+                importLoaders: 1,
+                modules: true,
+                localIdentName: '[name]_[local]_[hash:base64:5]'
+            })
 
-        },{
+        }/*,{
 
             test: /\.styl$/,
             use: [
@@ -149,13 +150,14 @@ module.exports = {
                 }
             ]
 
-        },{
+        }*/,{
 
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             use: [ 'react-hot', 'babel'],
             options:{
-                presets: ['react', 'es2015', 'stage-0' ]
+                presets: ['react', 'es2015', 'stage-0' ],
+                sourceMap: true
             }
 
         },{
@@ -189,9 +191,10 @@ module.exports = {
         hot: !production,
         stats,
         proxy: [{
-            path: /^\/?api\//i,
+            path: '/api/**',
+            changeOrigin: true,
             target: 'http://jsonplaceholder.typicode.com/',
-            rewrite: {'/api': ''}
+            pathRewrite: {'^/api': ''}
         }]
     }
 
