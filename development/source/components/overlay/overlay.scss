@@ -34,10 +34,14 @@
 
 .overlay-on {
 	composes: overlay;
+	opacity: 1;
+	transition: all 700ms;
 	display: block;
 }
 
 .overlay-off {
 	composes: overlay;
+	opacity: 0;
+	transition: all 700ms;
 	display: none;
 }
