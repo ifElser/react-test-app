@@ -9,7 +9,11 @@ npm i
 ```
 
 ##current state
-Webpack refactored to client side only rendering. Working on client code
+Webpack refactored to client side only rendering.
+Client routing ready.
+Basics components hierarchy ready
+Basic Baobab sore connected and shared between components through conextTypes
+Working on styles, Components detailes, animations and dataflow
 
 ##Isomorphic version
 Isomorphic version currently experimental and not finished yet
