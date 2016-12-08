@@ -3,6 +3,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import fs from 'fs';
 
 const production = process.env.NODE_ENV === 'production';
 const nodeEnv = production ? 'production' : 'development';
@@ -37,7 +38,7 @@ const stats = {
 };
 
 const entry = {
-    frameworks: ['react', 'react-dom'],
+    frameworks: ['whatwg-fetch', 'react', 'react-dom'],
     app: './app'
 }
 
@@ -63,6 +64,17 @@ const plugins = [
         allChunks: true
     }),
 
+    {
+        apply(compiler){
+            compiler.plugin('emit', (compilation, callback) => {
+                let index = fs
+                    .readFileSync( path.join(sourcePath, 'index.html'), {encoding: 'utf8'} )
+                    .replace(RegExp(`(<!--#)?\\s*(${nodeEnv}|common)\\s*(#-->)?`, 'ig'), '');
+                compilation.assets['index.html'] = { source: () => index, size: () => index.length };
+                callback()
+            })
+        }
+    }
 
 ];
 
@@ -97,8 +109,8 @@ if (production) {
         new webpack.HotModuleReplacementPlugin()
     );
 
-    entry['dev-server'] = [
-        'webpack-dev-server/client?http://0.0.0.0:4000',
+    entry['devserver'] = [
+        'webpack-dev-server/client?http://0.0.0.0:8080',
         'webpack/hot/only-dev-server'
     ];
 
@@ -126,38 +138,33 @@ module.exports = {
 
             test: /\.s?css$/,
             exclude: /node_modules/,
-            loader: ExtractTextPlugin.extract({
-                fallbackLoader: 'style-loader',
-                loader: ['css-loader'/*, 'sass-loader'*/],
-                importLoaders: 1,
-                modules: true,
-                localIdentName: '[name]_[local]_[hash:base64:5]'
-            })
+            loader: (
+                production ?
+                    ExtractTextPlugin.extract({
+                        fallbackLoader: 'style-loader',
+                        loader: [
+                            'css-loader?modules&importLoaders=1&localIdentName=[path]-[local]_[hash:base64:5]&camelCase',
+                            'sass-loader?modules'
+                        ]
+                    })
+                : 'style!css?modules&importLoaders=1&localIdentName=[path]-[local]_[hash:base64:5]&camelCase!sass?modules'
+            )
 
-        }/*,{
-
-            test: /\.styl$/,
-            use: [
-                'style',
-                'css',
-                {
-                    loader: 'stylus',
-                    options: {
-                        use: [ require('nib')() ],
-                        import: ['~nib/lib/nib/index.styl'],
-                        sourceMap: true
-                    }
-                }
-            ]
-
-        }*/,{
+        },{
 
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
-            use: [ 'react-hot', 'babel'],
+            include: sourcePath,
+            loader: 'react-hot'
+        },{
+
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            include: sourcePath,
+            loader: 'babel',
             options:{
-                presets: ['react', 'es2015', 'stage-0' ],
-                sourceMap: true
+                plugins: [ 'transform-class-properties', 'transform-decorators-legacy' ],
+                presets: [ 'react', 'es2015', 'stage-0' ]
             }
 
         },{
@@ -171,7 +178,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: [ '.js', '.jsx', '.css', '.scss', '.sass' ],  /*'.webpack-loader.js', '.web-loader.js', '.loader.js', */
+        extensions: [ '.js', '.jsx', '.css', '.scss', '.sass' ],
         modules: [ sourcePath, modulesPath ]
     },
 
@@ -185,7 +192,7 @@ module.exports = {
         contentBase: buildPath,
         historyApiFallback: true,
         host: '0.0.0.0',
-        port: production ? 80 : 3000,
+        port: production ? 80 : 8080,
         compress: production,
         inline: !production,
         hot: !production,
