@@ -28,3 +28,5 @@ This code was moved into *isomorphic-dev* btanch, so, for access it use next:
 git checkout isomorphic-dev
 ```
 
+##Public acces result
+Current state of project can be viewed here: http://dev.values.life
