@@ -1,12 +1,23 @@
 .post-preview {
 	color: #444;
-	padding: 10px;
+    padding: 10px 10px 20px;
 	background: white;
 	border-bottom: 1px solid #555;
-	h4 {
-		color: #000;
+	> h4 {
 		background: #EEF;
 		padding: 10px;
-		margin-bottom: 10px;
+	    margin: 10px -10px 20px;
+		span {
+			color: #A0A;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+		a {
+			color: #000;
+		}
+	}
+	p {
+		font-size: 18px;
 	}
 }

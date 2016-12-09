@@ -13,7 +13,7 @@ export default class MainLayout extends Component {
 	constructor(props) { super(props); }
 
 	render(){
-		console.log(css)
+		// console.log(css)
 		let children =  this.props.children instanceof Array ? this.props.children : [this.props.children];
 		return (
 		    <div>

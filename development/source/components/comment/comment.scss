@@ -1,0 +1,25 @@
+.comment {
+	color: #007;
+	padding: 15px;
+	background: #FDFDFD;
+	border: 1px solid #DDD;
+	margin: 10px;
+	> h4 {
+		background: #F7F7F7;
+		padding: 10px;
+		margin-bottom: 15px;
+		span {
+			color: #00F;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+		a {
+			color: #000;
+		}
+	}
+	> h5 {
+		font-size: 16px;
+		padding-bottom: 5px;
+	}
+}

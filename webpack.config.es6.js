@@ -38,7 +38,7 @@ const stats = {
 };
 
 const entry = {
-    frameworks: ['whatwg-fetch', 'react', 'react-dom'],
+    frameworks: ['lodash', 'oboe', 'whatwg-fetch', 'react', 'react-dom'],
     app: './app'
 }
 
